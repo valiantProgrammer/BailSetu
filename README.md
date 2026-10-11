@@ -16,7 +16,7 @@
 
 <br/>
 
-![Next.js](https://img.shields.io/badge/Next.js-15.3.4-black?style=flat-square&logo=nextdotjs)
+![Next.js](https://img.shields.io/badge/Next.js-15.3.9-black?style=flat-square&logo=nextdotjs)
 ![React](https://img.shields.io/badge/React-19.0.0-61DAFB?style=flat-square&logo=react&logoColor=black)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.x-38BDF8?style=flat-square&logo=tailwindcss&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-7.x-47A248?style=flat-square&logo=mongodb&logoColor=white)
@@ -286,7 +286,7 @@ Personalized dashboard with search history, bookmarked sections, real-time appli
 
 | Layer | Technology |
 |---|---|
-| Frontend Framework | Next.js `15.3.4` (App Router) |
+| Frontend Framework | Next.js `15.3.9` (App Router) |
 | Core Library | React `^19.0.0` / React DOM `^19.0.0` |
 | UI &amp; Styling | Tailwind CSS `^4.0.0` with `@tailwindcss/postcss` `^4.0.0` |
 | Icons | Lucide React `^1.55.0` &amp; React Icons `^5.5.0` |
