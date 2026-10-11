@@ -1,96 +1,154 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { FaPlus } from 'react-icons/fa';
+import { FaChevronDown, FaQuestionCircle, FaSearch } from 'react-icons/fa';
 import { motion, useAnimation } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 
-const FAQs = () => {
+const FAQs = ({ language: propLang }) => {
   const [faqs, setFaqs] = useState([]);
   const [openIndex, setOpenIndex] = useState(null);
   const [language, setLanguage] = useState('en');
+  const [searchQ, setSearchQ] = useState('');
   const controls = useAnimation();
-  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.2 });
+  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.15 });
 
   useEffect(() => {
-    const lang = localStorage.getItem('bailLang');
-    if (lang === 'hi' || lang === 'en') {
-      setLanguage(lang);
-    }
-  }, []);
+    const lang = propLang || localStorage.getItem('bailLang') || 'en';
+    setLanguage(lang);
+  }, [propLang]);
 
   useEffect(() => {
     fetch('/api/faqs', { cache: 'no-store' })
-      .then((res) => res.json())
-      .then((data) => setFaqs(data))
-      .catch((err) => {
-        console.error('Failed to load FAQs:', err);
-      });
+      .then(res => res.json())
+      .then(data => setFaqs(data))
+      .catch(err => console.error('Failed to load FAQs:', err));
   }, []);
 
   useEffect(() => {
-    if (inView) {
-      controls.start('visible');
-    }
+    if (inView) controls.start('visible');
   }, [inView, controls]);
 
-  const toggleFAQ = (index) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
+  const toggleFAQ = (index) => setOpenIndex(openIndex === index ? null : index);
+
+  const filteredFaqs = faqs.filter(item => {
+    if (!searchQ) return true;
+    const q = (item.question?.[language] || '').toLowerCase();
+    return q.includes(searchQ.toLowerCase());
+  });
 
   return (
-    <section className="faq-section py-16 px-4 bg-gray-50" id="faq" ref={ref}>
-      <h2 className="text-3xl font-bold text-center mb-10 text-gray-800">
-        {language === 'hi'
-          ? 'अक्सर पूछे जाने वाले प्रश्न'
-          : 'Frequently Asked Questions'}
-      </h2>
-
-      <div className="max-w-3xl mx-auto space-y-6">
-        {faqs.map((item, index) => (
-          <motion.div
-            key={item._id || index}
-            className="border border-gray-300 rounded-xl bg-white shadow-sm"
-            initial="hidden"
-            animate={controls}
-            variants={{
-              hidden: { opacity: 0, y: 50, scale: 0.95 },
-              visible: {
-                opacity: 1,
-                y: 0,
-                scale: 1,
-                transition: {
-                  delay: index * 0.15,
-                  duration: 0.6,
-                  type: 'spring',
-                  stiffness: 60,
-                },
-              },
-            }}
+    <section
+      id="faq"
+      className="py-20 px-4"
+      style={{ background: 'linear-gradient(135deg, #f8f9fc 0%, #eef2f7 100%)' }}
+      ref={ref}
+    >
+      <div className="container">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <span
+            className="text-sm font-semibold uppercase tracking-widest mb-3 block"
+            style={{ color: 'var(--primary)' }}
           >
-            <button
-              onClick={() => toggleFAQ(index)}
-              className="w-full flex justify-between items-center px-6 py-4 text-left focus:outline-none"
-            >
-              <h3 className="text-lg font-medium text-gray-800">
-                {item.question?.[language]}
-              </h3>
-              <span
-                className={`transition-transform duration-300 text-gray-600 ${
-                  openIndex === index ? 'rotate-45' : ''
-                }`}
-              >
-                <FaPlus className="text-xl" />
-              </span>
-            </button>
-            <div
-              className={`overflow-hidden transition-all duration-300 ease-in-out px-6 ${
-                openIndex === index ? 'max-h-96 py-2' : 'max-h-0'
-              }`}
-            >
-              <p className="text-gray-600">{item.answer?.[language]}</p>
+            {language === 'hi' ? 'सहायता' : 'Help Center'}
+          </span>
+          <h2 className="bs-section-title mb-3">
+            {language === 'hi' ? 'अक्सर पूछे जाने वाले प्रश्न' : 'Frequently Asked Questions'}
+          </h2>
+          <p className="bs-section-subtitle mb-8">
+            {language === 'hi'
+              ? 'जमानत प्रक्रिया और BailSetu के बारे में सामान्य प्रश्नों के उत्तर'
+              : 'Find answers to common questions about the bail process and using BailSetu'}
+          </p>
+
+          {/* Search */}
+          <div className="max-w-md mx-auto relative">
+            <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={14} />
+            <input
+              type="text"
+              value={searchQ}
+              onChange={e => setSearchQ(e.target.value)}
+              placeholder={language === 'hi' ? 'प्रश्न खोजें...' : 'Search FAQs...'}
+              className="w-full pl-10 pr-4 py-3 bg-white border rounded-full text-sm outline-none transition-all"
+              style={{
+                borderColor: 'var(--border)',
+                boxShadow: 'var(--shadow-sm)',
+                fontFamily: 'var(--font-sans)',
+              }}
+              onFocus={e => {
+                e.target.style.borderColor = 'var(--primary)';
+                e.target.style.boxShadow = '0 0 0 3px rgba(192,57,43,0.1)';
+              }}
+              onBlur={e => {
+                e.target.style.borderColor = 'var(--border)';
+                e.target.style.boxShadow = 'var(--shadow-sm)';
+              }}
+            />
+          </div>
+        </div>
+
+        {/* FAQ list */}
+        <div className="max-w-3xl mx-auto space-y-3">
+          {filteredFaqs.length === 0 && (
+            <div className="text-center py-10 text-gray-400">
+              <FaQuestionCircle className="mx-auto text-4xl mb-3 opacity-30" />
+              <p>{language === 'hi' ? 'कोई प्रश्न नहीं मिला' : 'No FAQs found'}</p>
             </div>
-          </motion.div>
-        ))}
+          )}
+
+          {filteredFaqs.map((item, index) => (
+            <motion.div
+              key={item._id || index}
+              className="bs-faq-item"
+              style={{ '--open': openIndex === index ? 1 : 0 }}
+              initial="hidden"
+              animate={controls}
+              variants={{
+                hidden: { opacity: 0, y: 30 },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: { delay: index * 0.08, duration: 0.5, type: 'spring', stiffness: 70 },
+                },
+              }}
+            >
+              <button
+                onClick={() => toggleFAQ(index)}
+                className="w-full flex items-start gap-4 px-6 py-5 text-left"
+              >
+                {/* Number */}
+                <div
+                  className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-300"
+                  style={{
+                    background: openIndex === index ? 'var(--primary)' : 'rgba(192,57,43,0.08)',
+                    color: openIndex === index ? 'white' : 'var(--primary)',
+                  }}
+                >
+                  {index + 1}
+                </div>
+
+                <h3 className="flex-1 text-base font-semibold text-gray-800 leading-snug">
+                  {item.question?.[language]}
+                </h3>
+
+                <FaChevronDown
+                  size={14}
+                  className="flex-shrink-0 mt-1 text-gray-400 transition-transform duration-300"
+                  style={{ transform: openIndex === index ? 'rotate(180deg)' : 'rotate(0)' }}
+                />
+              </button>
+
+              <div
+                className="overflow-hidden transition-all duration-300 ease-in-out"
+                style={{ maxHeight: openIndex === index ? 500 : 0 }}
+              >
+                <div className="px-6 pb-5 pl-[4.5rem]">
+                  <p className="text-gray-600 leading-relaxed text-sm">{item.answer?.[language]}</p>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   );

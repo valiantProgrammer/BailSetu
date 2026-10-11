@@ -1,186 +1,239 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { FaBalanceScale, FaSearch, FaMobileAlt, FaInfoCircle } from 'react-icons/fa';
-import { BsShieldLockFill } from 'react-icons/bs';
-import Spinner from './components/Spinner';
+import { 
+  Search, Shield, BookOpen, Users, HelpCircle, 
+  ChevronRight, ArrowRight, CheckCircle2, FileText, Scale
+} from 'lucide-react';
+import Navbar from './components/layout/Navbar';
+import Footer from './components/layout/Footer';
+import { useLanguage } from './context/LanguageContext';
+import { POPULAR_SEARCHES, CATEGORIES } from '@/src/data/mockData';
 
-export default function LandingPage() {
-  const [lang, setLang] = useState('en');
-  const [loading, setLoading] = useState(false);
+export default function HomePage() {
   const router = useRouter();
+  const { language, t } = useLanguage();
+  const [searchQuery, setSearchQuery] = useState('');
 
-  useEffect(() => {
-    const savedLang = localStorage.getItem('bailLang') || 'en';
-    setLang(savedLang);
-  }, []);
-
-  const switchLanguage = () => {
-    const nextLang = lang === 'en' ? 'hi' : 'en';
-    localStorage.setItem('bailLang', nextLang);
-    setLang(nextLang);
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/search/results?q=${encodeURIComponent(searchQuery.trim())}`);
+    } else {
+      router.push('/search');
+    }
   };
 
-  const decisionMaking = (actionType) => {
-    if (actionType === 'english' || actionType === 'hindi') {
-      setLoading(true);
-      router.push('/Home');
-    }
-  }
+  const handleChipClick = (term) => {
+    router.push(`/search/results?q=${encodeURIComponent(term)}`);
+  };
 
   return (
-    (!loading ? (<main className="min-h-screen w-full bg-[#f5f7fa] text-[#2c3e50]">
-      {lang === 'en' ? (
-        <EnglishLanding language={lang} decision={decisionMaking} switchLanguage={switchLanguage} />
-      ) : (
-        <HindiLanding language={lang} decision={decisionMaking} switchLanguage={switchLanguage} />
-      )}
-    </main>) : (<Spinner />))
-  );
-}
+    <div className="min-h-screen flex flex-col bg-[#F8FAFC]">
+      <Navbar />
 
-function LanguageToggle({ language, switchLanguage }) {
-  return (
-    <div className="z-20">
-      <button
-        onClick={switchLanguage}
-        className="relative flex items-center w-[90px] h-[36px] bg-[#e74c3c] rounded-full px-1 transition-all duration-1000 focus:outline-none shadow-md"
-        aria-label="Switch language"
-      >
-        <div
-          className={`absolute top-1/2 left-1 transform -translate-y-1/2 w-[28px] h-[28px] bg-white rounded-full transition-all duration-300 ${language === 'hi' ? 'translate-x-[53px]' : 'translate-x-0'
-            }`}
-        />
-        <div className="flex justify-between w-full px-2 text-sm font-semibold z-10">
-          <span className="text-white">EN</span>
-          <span className="text-white">हि</span>
-        </div>
-      </button>
+      <main className="flex-1">
+        {/* HERO SECTION */}
+        <section className="relative pt-6 pb-12 sm:pt-10 sm:pb-16 overflow-hidden">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+              
+              {/* MOBILE: Hero image appears on top or below heading */}
+              <div className="block lg:hidden w-full max-w-sm mx-auto mb-2">
+                <div className="relative rounded-2xl overflow-hidden shadow-sm aspect-[4/3] bg-gradient-to-b from-blue-50/50 to-orange-50/30 p-2 border border-slate-100">
+                  <Image
+                    src="/supreme_court_hero.jpg"
+                    alt="Supreme Court of India"
+                    fill
+                    priority
+                    className="object-contain"
+                  />
+                </div>
+              </div>
+
+              {/* LEFT / HERO CONTENT */}
+              <div className="lg:col-span-7 space-y-6 text-left">
+                
+                {/* Main Headings */}
+                <div className="space-y-1">
+                  <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-[#0B1F4B] tracking-tight leading-[1.15]">
+                    {t('heroTitle1')}
+                  </h1>
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-[#F97316] tracking-tight leading-[1.15]">
+                    {t('heroTitle2')}
+                  </h2>
+                </div>
+
+                {/* Subtext */}
+                <p className="text-sm sm:text-base text-[#64748B] max-w-xl leading-relaxed">
+                  {t('heroSubtext')}
+                </p>
+
+                {/* SEARCH BAR (Mockup Pixel-for-Pixel) */}
+                <form
+                  onSubmit={handleSearchSubmit}
+                  className="relative flex items-center bg-white rounded-xl shadow-md border border-[#E2E8F0] p-1.5 focus-within:ring-2 focus-within:ring-[#1E40AF] focus-within:border-[#1E40AF] transition-all"
+                >
+                  <div className="pl-3 pr-2 text-[#94A3B8]">
+                    <Search className="w-5 h-5" />
+                  </div>
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder={t('heroSearchPlaceholder')}
+                    className="w-full text-sm text-[#0B1F4B] placeholder:text-[#94A3B8] outline-none bg-transparent py-2 px-1"
+                  />
+                  <button
+                    type="submit"
+                    className="bg-[#1E40AF] hover:bg-[#1D4ED8] text-white p-3 rounded-lg shadow-sm transition-colors flex items-center justify-center shrink-0"
+                    aria-label="Search"
+                  >
+                    <Search className="w-4 h-4" />
+                  </button>
+                </form>
+
+                {/* POPULAR SEARCHES CHIPS */}
+                <div className="space-y-2 pt-1">
+                  <span className="text-xs font-semibold text-[#64748B] block">
+                    {t('popularSearches')}
+                  </span>
+                  <div className="flex flex-wrap gap-2">
+                    {POPULAR_SEARCHES.map((item) => (
+                      <button
+                        key={item}
+                        type="button"
+                        onClick={() => handleChipClick(item)}
+                        className="px-3 py-1.5 bg-white hover:bg-[#EFF6FF] hover:text-[#1E40AF] text-[#475569] text-xs font-medium rounded-full border border-[#E2E8F0] transition-colors shadow-2xs"
+                      >
+                        {item}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+              </div>
+
+              {/* DESKTOP RIGHT: Hero Graphic with Indian courthouse + Tricolor */}
+              <div className="hidden lg:block lg:col-span-5">
+                <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-lg border border-slate-200/60 bg-gradient-to-tr from-white via-orange-50/20 to-blue-50/30 p-2">
+                  <Image
+                    src="/supreme_court_hero.jpg"
+                    alt="Supreme Court of India"
+                    fill
+                    priority
+                    className="object-contain"
+                  />
+                </div>
+              </div>
+
+            </div>
+
+            {/* FOUR QUICK-ACTION TILES (Pixel-for-pixel matching mockup) */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mt-10">
+              
+              {/* Tile 1: Bail Information */}
+              <Link
+                href="/search"
+                className="bg-white rounded-xl p-4 sm:p-5 text-center border border-[#E2E8F0] shadow-xs hover:shadow-md hover:border-[#F97316]/50 transition-all group flex flex-col items-center justify-center space-y-2.5"
+              >
+                <div className="w-12 h-12 rounded-full bg-[#FFF7ED] text-[#EA580C] flex items-center justify-center group-hover:scale-105 transition-transform">
+                  <Scale className="w-6 h-6" />
+                </div>
+                <span className="text-xs sm:text-sm font-bold text-[#0B1F4B] group-hover:text-[#EA580C] transition-colors">
+                  {t('tileBailInfo')}
+                </span>
+              </Link>
+
+              {/* Tile 2: Legal Provisions */}
+              <Link
+                href="/search"
+                className="bg-white rounded-xl p-4 sm:p-5 text-center border border-[#E2E8F0] shadow-xs hover:shadow-md hover:border-[#10B981]/50 transition-all group flex flex-col items-center justify-center space-y-2.5"
+              >
+                <div className="w-12 h-12 rounded-full bg-[#F0FDF4] text-[#16A34A] flex items-center justify-center group-hover:scale-105 transition-transform">
+                  <BookOpen className="w-6 h-6" />
+                </div>
+                <span className="text-xs sm:text-sm font-bold text-[#0B1F4B] group-hover:text-[#16A34A] transition-colors">
+                  {t('tileLegalProvisions')}
+                </span>
+              </Link>
+
+              {/* Tile 3: Find Advocates */}
+              <Link
+                href="/advocates"
+                className="bg-white rounded-xl p-4 sm:p-5 text-center border border-[#E2E8F0] shadow-xs hover:shadow-md hover:border-[#1E40AF]/50 transition-all group flex flex-col items-center justify-center space-y-2.5"
+              >
+                <div className="w-12 h-12 rounded-full bg-[#EFF6FF] text-[#1E40AF] flex items-center justify-center group-hover:scale-105 transition-transform">
+                  <Users className="w-6 h-6" />
+                </div>
+                <span className="text-xs sm:text-sm font-bold text-[#0B1F4B] group-hover:text-[#1E40AF] transition-colors">
+                  {t('tileFindAdvocates')}
+                </span>
+              </Link>
+
+              {/* Tile 4: Legal Aid Support */}
+              <Link
+                href="/legal-aid"
+                className="bg-white rounded-xl p-4 sm:p-5 text-center border border-[#E2E8F0] shadow-xs hover:shadow-md hover:border-[#0D9488]/50 transition-all group flex flex-col items-center justify-center space-y-2.5"
+              >
+                <div className="w-12 h-12 rounded-full bg-[#ECFDF5] text-[#0D9488] flex items-center justify-center group-hover:scale-105 transition-transform">
+                  <Shield className="w-6 h-6" />
+                </div>
+                <span className="text-xs sm:text-sm font-bold text-[#0B1F4B] group-hover:text-[#0D9488] transition-colors">
+                  {t('tileLegalAidSupport')}
+                </span>
+              </Link>
+
+            </div>
+
+          </div>
+        </section>
+
+        {/* QUICK CATEGORY HIGHLIGHT STRIP */}
+        <section className="py-8 bg-white border-y border-[#E2E8F0]">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h3 className="text-lg font-bold text-[#0B1F4B]">
+                  {language === 'hi' ? 'कानूनी अपराध श्रेणियां' : 'Browse Legal Categories'}
+                </h3>
+                <p className="text-xs text-[#64748B]">
+                  {language === 'hi' ? 'विभिन्न अपराध श्रेणियों के अंतर्गत जमानत नियम समझें' : 'Explore bail eligibility across various penal provisions'}
+                </p>
+              </div>
+              <Link
+                href="/search"
+                className="text-xs font-semibold text-[#1E40AF] hover:underline flex items-center"
+              >
+                {t('viewAll')} <ArrowRight className="w-3.5 h-3.5 ml-1" />
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+              {CATEGORIES.slice(0, 4).map((cat) => (
+                <Link
+                  key={cat.id}
+                  href={`/search/results?category=${cat.id}`}
+                  className={`p-4 rounded-xl border ${cat.borderClass} ${cat.bgClass} hover:shadow-sm transition-all group`}
+                >
+                  <p className={`font-bold text-xs sm:text-sm ${cat.textClass}`}>
+                    {language === 'hi' ? cat.nameHi : cat.name}
+                  </p>
+                  <p className="text-[11px] text-[#64748B] mt-1">
+                    {language === 'hi' ? cat.exampleHi : cat.example}
+                  </p>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+
+      </main>
+
+      <Footer />
     </div>
-  );
-}
-
-function FeatureCard({ icon, title, desc }) {
-  return (
-    <div className="bg-white shadow-md rounded-xl p-6 transition hover:shadow-lg border border-gray-200">
-      <div className="text-3xl mb-4 text-[#e74c3c]">{icon}</div>
-      <h4 className="text-lg font-semibold mb-2">{title}</h4>
-      <p className="text-sm text-gray-600">{desc}</p>
-    </div>
-  );
-}
-
-function EnglishLanding({ language, switchLanguage, decision }) {
-  function connectToHome() {
-    decision?.('english');
-  }
-  return (
-    <>
-      {/* Hero Section */}
-      <section className="bg-[#2c3e50] text-white py-20 px-6 text-center relative">
-        <div className="max-w-4xl mx-auto relative">
-          <div className='w-full flex justify-end'>
-            <LanguageToggle language={language} switchLanguage={switchLanguage} />
-          </div>
-          <h1 className="text-4xl sm:text-5xl font-bold flex justify-center items-center gap-2">
-            <FaBalanceScale />
-            Welcome to <span className="text-[#e74c3c] ml-2">BAIL सेतु</span>
-          </h1>
-          <p className="mt-4 text-lg text-gray-200">
-            Your bridge to understanding Indian bail laws, rights & legal aid.
-          </p>
-          <button
-            onClick={connectToHome}
-            className="mt-8 inline-block bg-[#e74c3c] hover:bg-[#c0392b] text-white px-6 py-3 rounded-md font-medium transition"
-          >
-            Start Exploring
-          </button>
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section className="py-16 px-6">
-        <div className="max-w-5xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-8">What You Can Do</h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
-            <FeatureCard icon={<FaSearch />} title="Search IPC Sections" desc="Type your case or situation to find relevant IPC sections and bail eligibility." />
-            <FeatureCard icon={<FaMobileAlt />} title="SMS & WhatsApp Help" desc="No smartphone? No problem. Get legal info over SMS or chat." />
-            <FeatureCard icon={<BsShieldLockFill />} title="Know Your Rights" desc="Get clear explanations of legal rights and when bail is applicable." />
-            <FeatureCard icon={<FaInfoCircle />} title="Understand Punishments" desc="View detailed descriptions, punishments, and conditions for bail." />
-            <FeatureCard icon={<FaBalanceScale />} title="Hindi & English Support" desc="Built for all users – in both English and Hindi for broader access." />
-          </div>
-        </div>
-      </section>
-
-      {/* Call to Action */}
-      <section className="bg-[#ecf0f1] py-12 px-6 text-center">
-        <h3 className="text-2xl font-semibold">Empower yourself legally.</h3>
-        <p className="mt-2 text-gray-600">Search now and take your first step towards justice.</p>
-        <button onClick={connectToHome} className="mt-6 inline-block bg-[#2c3e50] hover:bg-[#34495e] text-white px-6 py-3 rounded-md transition font-medium">
-          Go to Bail Search
-        </button>
-      </section>
-
-      <footer className="bg-[#2c3e50] text-white text-center py-6">
-        <p>&copy; {new Date().getFullYear()} BAIL सेतु. All rights reserved.</p>
-        <p className="text-sm mt-1 text-gray-400">Made with ❤️ to promote legal awareness.</p>
-      </footer>
-    </>
-  );
-}
-
-function HindiLanding({ language, switchLanguage, decision }) {
-  function connectToHome() {
-    decision?.('hindi');
-  }
-  return (
-    <>
-      {/* Hero Section */}
-      <section className="bg-[#2c3e50] text-white py-20 px-6 text-center relative">
-        <div className="max-w-4xl mx-auto relative">
-          <LanguageToggle language={language} switchLanguage={switchLanguage} />
-
-          <h1 className="text-4xl sm:text-5xl font-bold flex justify-center items-center gap-2">
-            <FaBalanceScale />
-            <span>स्वागत है <span className="text-[#e74c3c] ml-2">BAIL सेतु</span></span>
-          </h1>
-          <p className="mt-4 text-lg text-gray-200">
-            भारतीय ज़मानत कानून, अधिकारों और कानूनी सहायता को समझने का सेतु।
-          </p>
-          <button onClick={connectToHome} className="mt-8 inline-block bg-[#e74c3c] text-white px-6 py-3 rounded-md font-medium hover:bg-[#c0392b] transition">
-            खोज शुरू करें
-          </button>
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section className="py-16 px-6">
-        <div className="max-w-5xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-8">आप क्या कर सकते हैं</h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
-            <FeatureCard icon={<FaSearch />} title="IPC अनुभाग खोजें" desc="अपने मामले या स्थिति को टाइप करें और जानें कि कौन-कौन से धाराएं लागू होती हैं।" />
-            <FeatureCard icon={<FaMobileAlt />} title="SMS और WhatsApp सहायता" desc="स्मार्टफोन नहीं? SMS या चैट से जानकारी प्राप्त करें।" />
-            <FeatureCard icon={<BsShieldLockFill />} title="अपने अधिकार जानें" desc="कानूनी अधिकारों की स्पष्ट जानकारी और ज़मानत कब मिल सकती है।" />
-            <FeatureCard icon={<FaInfoCircle />} title="दंड समझें" desc="हर अपराध के लिए दंड और ज़मानत की शर्तें पढ़ें।" />
-            <FeatureCard icon={<FaBalanceScale />} title="हिंदी और अंग्रेज़ी दोनों में" desc="हर किसी के लिए – हिंदी और अंग्रेज़ी में उपलब्ध।" />
-          </div>
-        </div>
-      </section>
-
-      {/* Call to Action */}
-      <section className="bg-[#ecf0f1] py-12 px-6 text-center">
-        <h3 className="text-2xl font-semibold">कानूनी रूप से सशक्त बनें।</h3>
-        <p className="mt-2 text-gray-600">खोज शुरू करें और न्याय की ओर पहला कदम बढ़ाएँ।</p>
-        <button onClick={connectToHome} className="mt-6 inline-block bg-[#2c3e50] hover:bg-[#34495e] text-white px-6 py-3 rounded-md transition font-medium">
-          बेल खोज पर जाएं
-        </button>
-      </section>
-
-      <footer className="bg-[#2c3e50] text-white text-center py-6">
-        <p>&copy; {new Date().getFullYear()} BAIL सेतु. सर्वाधिकार सुरक्षित।</p>
-        <p className="text-sm mt-1 text-gray-400">❤️ के साथ बनाया गया — न्यायिक जानकारी को सरल बनाने के लिए।</p>
-      </footer>
-    </>
   );
 }
