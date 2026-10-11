@@ -1,11 +1,15 @@
 import { NextResponse } from 'next/server';
 import { MongoClient, ObjectId } from 'mongodb';
 
+export const dynamic = 'force-dynamic';
 const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017';
-const client = new MongoClient(uri);
+let client;
 const dbName = 'BailSETU';
 
 async function connectDB() {
+  if (!client) {
+    client = new MongoClient(uri);
+  }
   if (!client.topology?.isConnected()) await client.connect();
   return client.db(dbName);
 }

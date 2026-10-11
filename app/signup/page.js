@@ -168,7 +168,7 @@ const Page = () => {
           className="mt-8 p-4 rounded-xl text-left"
           style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}
         >
-          <p className="text-white/60 text-xs italic">"Bail is the rule, jail is the exception."</p>
+          <p className="text-white/60 text-xs italic">&ldquo;Bail is the rule, jail is the exception.&rdquo;</p>
           <p className="text-white/40 text-xs mt-1">— Supreme Court of India</p>
         </div>
       </div>

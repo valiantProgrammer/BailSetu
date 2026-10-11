@@ -239,7 +239,7 @@ export default function Result() {
           <div className="mb-6">
             <p className="text-sm text-gray-400 mb-1">{t.resultsFor}:</p>
             <h1 className="text-2xl font-bold text-gray-800" style={{ fontFamily: 'Playfair Display, serif' }}>
-              "{message}"
+              &ldquo;{message}&rdquo;
             </h1>
             {!loading && cards.length > 0 && (
               <p className="text-sm text-gray-500 mt-1">

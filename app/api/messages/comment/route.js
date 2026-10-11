@@ -1,12 +1,16 @@
 import { NextResponse } from 'next/server';
 import { MongoClient, ObjectId } from 'mongodb';
 
-const uri = process.env.MONGODB_URI_2;
-const client = new MongoClient(uri);
+export const dynamic = 'force-dynamic';
+const uri = process.env.MONGODB_URI_2 || process.env.MONGODB_URI || 'mongodb://localhost:27017';
+let client;
 const dbName = 'chatProject';
 let db;
 
 async function getDb() {
+  if (!client) {
+    client = new MongoClient(uri);
+  }
   if (!db) {
     await client.connect();
     db = client.db(dbName);

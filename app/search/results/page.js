@@ -68,7 +68,7 @@ function SearchResultsContent() {
               </h1>
               <p className="text-xs sm:text-sm text-[#64748B] mt-0.5">
                 {t('resultsFor')}{' '}
-                <span className="font-semibold text-[#0B1F4B]">"{query}"</span>
+                <span className="font-semibold text-[#0B1F4B]">&quot;{query}&quot;</span>
               </p>
             </div>
 
