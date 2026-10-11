@@ -43,11 +43,14 @@ BailSETU is a full-stack civic legal information platform built for Indian citiz
 <img src="./docs/assets/divider.svg" alt="" width="100%"/>
 
 ## Links 
-
-- **Website URL: https://bail-setu.vercel.app/**
-- For Mobile Experience scan this qr code : 
-
-<img src="./bailsetu_qr_dark_gold.png" alt="QR Code for Mobile Experience" width="300" height="300"/>
+<details>
+  <summary>Show Links</summary>
+ <ul>
+  <li>Website URL: <a href="https://bail-setu.vercel.app/">https://bail-setu.vercel.app/</a></li>
+  <li>For Mobile Experience scan this qr code : 
+  <img src="./bailsetu_qr_dark_gold.png" alt="QR Code for Mobile Experience" width="300" height="300"/></li>
+  </ul>
+</details>
 
 ## Features
 
