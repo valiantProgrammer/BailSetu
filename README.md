@@ -7,8 +7,7 @@
 <br/>
 <br/>
 
-# [BailSETU](https://bailsetu.vercel.app/)
-<!-- TODO: Replace with production live deployment URL if different -->
+# [BailSETU](https://bail-setu.vercel.app/)
 
 **Your Bridge to Legal Information — bilingual legal awareness and bail eligibility platform.**
 
@@ -26,7 +25,7 @@
 
 <br/>
 
-**[Features](#features) · [Screenshots](#screenshots) · [Getting Started](#getting-started) · [Tech Stack](#tech-stack) · [Architecture](#architecture) · [Roadmap](#roadmap) · [Contributing](#contributing)**
+**[Live Demo](#-live-demo--mobile-access) · [Features](#features) · [Screenshots](#screenshots) · [Getting Started](#getting-started) · [Tech Stack](#tech-stack) · [Architecture](#architecture) · [Roadmap](#roadmap) · [Contributing](#contributing)**
 
 </div>
 
@@ -42,15 +41,36 @@ BailSETU is a full-stack civic legal information platform built for Indian citiz
 
 <img src="./docs/assets/divider.svg" alt="" width="100%"/>
 
-## Links 
-<details>
-  <summary>Show Links</summary>
- <ul>
-  <li>Website URL: <a href="https://bail-setu.vercel.app/">https://bail-setu.vercel.app/</a></li>
-  <li>For Mobile Experience scan this qr code : 
-  <img src="./public/bailsetu_qr_dark_gold.png" alt="QR Code for Mobile Experience" width="300" height="300"/></li>
-  </ul>
-</details>
+## 🌐 Live Demo & Mobile Access
+
+<table>
+<tr>
+<td width="58%" valign="top">
+
+### 💻 Web Application
+Explore the complete bilingual civic legal awareness platform directly in your browser:
+
+[![Open Live App](https://img.shields.io/badge/Launch%20Platform-bail--setu.vercel.app-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://bail-setu.vercel.app/)
+
+- 🔗 **Direct URL:** [https://bail-setu.vercel.app/](https://bail-setu.vercel.app/)
+- 🌐 **Bilingual:** Instant English ⇄ Hindi (`हिंदी`) switching
+- ⚖️ **Statutory Search:** Real-time IPC &amp; BNS classification and bail metrics
+- 👨‍⚖️ **Advocate Discovery:** Find verified advocates &amp; apply for free legal aid
+
+</td>
+<td width="42%" align="center" valign="middle">
+
+### 📱 Mobile Experience
+
+<a href="https://bail-setu.vercel.app/" target="_blank">
+  <img src="./public/bailsetu_qr_dark_gold.png" alt="BailSETU Mobile Experience QR Code" width="180" height="180"/>
+</a>
+
+<sub>📷 **Scan with your phone camera** to open instantly</sub>
+
+</td>
+</tr>
+</table>
 
 <img src="./docs/assets/divider.svg" alt="" width="100%"/>
 
