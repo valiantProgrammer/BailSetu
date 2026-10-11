@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 68 20" width="68" height="20" fill="none">
+  <defs>
+    <style>
+      @keyframes radarPing {
+        0% { r: 4px; opacity: 0.85; }
+        70%, 100% { r: 8.5px; opacity: 0; }
+      }
+      @keyframes coreGlow {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.72; }
+      }
+      .radar-ring {
+        animation: radarPing 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+        transform-origin: 12px 10px;
+      }
+      .core-dot {
+        animation: coreGlow 2s ease-in-out infinite;
+      }
+    </style>
+  </defs>
+
+  <!-- Container Pill Badge -->
+  <rect width="68" height="20" rx="10" fill="#DCFCE7" stroke="#86EFAC" stroke-width="1"/>
+
+  <!-- Radar Pulse Expansion Ring (SMIL + CSS) -->
+  <circle class="radar-ring" cx="12" cy="10" r="4" fill="#22C55E" opacity="0.85">
+    <animate attributeName="r" values="4;8.5" dur="2s" repeatCount="indefinite" keyTimes="0;1"/>
+    <animate attributeName="opacity" values="0.85;0" dur="2s" repeatCount="indefinite" keyTimes="0;1"/>
+  </circle>
+
+  <!-- Solid Core Indicator Dot -->
+  <circle class="core-dot" cx="12" cy="10" r="4" fill="#16A34A">
+    <animate attributeName="opacity" values="1;0.72;1" dur="2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- "Live" Status Text -->
+  <text x="24" y="14" fill="#166534" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" letter-spacing="0.5">Live</text>
+</svg>

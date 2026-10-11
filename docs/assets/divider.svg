@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 4" width="100%" height="4" fill="none">
+  <defs>
+    <linearGradient id="divGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0B1F4B" stop-opacity="0.8"/>
+      <stop offset="35%" stop-color="#1E40AF" stop-opacity="0.9"/>
+      <stop offset="70%" stop-color="#F97316" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#F97316" stop-opacity="0.2"/>
+    </linearGradient>
+
+    <linearGradient id="shimmerBeam" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#FDBA74" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+
+    <style>
+      @keyframes travelShimmer {
+        0% { transform: translateX(-260px); }
+        100% { transform: translateX(1060px); }
+      }
+      .shimmer-pulse {
+        animation: travelShimmer 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      }
+    </style>
+  </defs>
+
+  <!-- Static Base Divider Track -->
+  <rect width="1000" height="3" rx="1.5" fill="url(#divGrad)"/>
+
+  <!-- Traveling Glowing Pulse Beam (SMIL + CSS) -->
+  <g class="shimmer-pulse">
+    <rect x="0" y="0" width="220" height="3" rx="1.5" fill="url(#shimmerBeam)">
+      <animateTransform
+        attributeName="transform"
+        type="translate"
+        values="-260 0; 1060 0"
+        dur="3.2s"
+        repeatCount="indefinite"
+        calcMode="spline"
+        keyTimes="0; 1"
+        keySplines="0.4 0 0.2 1"/>
+    </rect>
+  </g>
+</svg>

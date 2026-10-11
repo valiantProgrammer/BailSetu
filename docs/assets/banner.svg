@@ -1,0 +1,172 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300" width="1200" height="300" fill="none">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#081636"/>
+      <stop offset="55%" stop-color="#0B1F4B"/>
+      <stop offset="100%" stop-color="#1E3A8A"/>
+    </linearGradient>
+
+    <linearGradient id="orangeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FF7A00"/>
+      <stop offset="100%" stop-color="#F97316"/>
+    </linearGradient>
+
+    <linearGradient id="saffronWave" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F97316" stop-opacity="0.32"/>
+      <stop offset="100%" stop-color="#F97316" stop-opacity="0"/>
+    </linearGradient>
+
+    <linearGradient id="greenWave" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#16A34A" stop-opacity="0.28"/>
+      <stop offset="100%" stop-color="#16A34A" stop-opacity="0"/>
+    </linearGradient>
+
+    <linearGradient id="sheen" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#FFFFFF" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+
+    <clipPath id="bannerClip">
+      <rect width="1200" height="300" rx="16"/>
+    </clipPath>
+
+    <style>
+      @keyframes scalesRock {
+        0%, 100% { transform: rotate(-2.5deg); }
+        50% { transform: rotate(2.5deg); }
+      }
+      @keyframes rotateCW {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+      @keyframes rotateCCW {
+        from { transform: rotate(360deg); }
+        to { transform: rotate(0deg); }
+      }
+      @keyframes pulseRing {
+        0% { r: 3.5px; opacity: 0.8; }
+        80%, 100% { r: 8px; opacity: 0; }
+      }
+      @keyframes glassSheen {
+        0% { transform: translateX(-400px) skewX(-20deg); }
+        45%, 100% { transform: translateX(1600px) skewX(-20deg); }
+      }
+      .scales-beam-anim {
+        transform-origin: 120px 65px;
+        animation: scalesRock 6s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+      }
+      .chakra-outer-anim {
+        transform-origin: 1050px 115px;
+        animation: rotateCW 40s linear infinite;
+      }
+      .chakra-inner-anim {
+        transform-origin: 1050px 115px;
+        animation: rotateCCW 28s linear infinite;
+      }
+      .sheen-rect {
+        animation: glassSheen 7.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      }
+      .pulse-beacon {
+        animation: pulseRing 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+      }
+    </style>
+  </defs>
+
+  <!-- Root Canvas with Clip -->
+  <g clip-path="url(#bannerClip)">
+    <!-- Background Canvas -->
+    <rect width="1200" height="300" rx="16" fill="url(#bgGrad)"/>
+
+    <!-- Tricolor Accent Swooshes with Breathing Waves -->
+    <path d="M 0 250 Q 300 200, 600 270 T 1200 220 L 1200 300 L 0 300 Z" fill="url(#greenWave)">
+      <animate attributeName="opacity" values="0.75;1;0.75" dur="6s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 0 220 Q 350 280, 750 210 T 1200 250 L 1200 300 L 0 300 Z" fill="url(#saffronWave)">
+      <animate attributeName="opacity" values="0.85;1;0.85" dur="4.5s" repeatCount="indefinite"/>
+    </path>
+
+    <!-- Animated Ashoka Chakra Concentric Rings Motif -->
+    <g class="chakra-outer-anim">
+      <circle cx="1050" cy="115" r="82" stroke="#FFFFFF" stroke-opacity="0.08" stroke-width="1.5" stroke-dasharray="6 8">
+        <animateTransform attributeName="transform" type="rotate" from="0 1050 115" to="360 1050 115" dur="40s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+    <g class="chakra-inner-anim">
+      <circle cx="1050" cy="115" r="54" stroke="#FFFFFF" stroke-opacity="0.05" stroke-width="1" stroke-dasharray="4 6">
+        <animateTransform attributeName="transform" type="rotate" from="360 1050 115" to="0 1050 115" dur="28s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+
+    <!-- Scales of Justice Motif (Right Watermark) -->
+    <g transform="translate(930, 40)" stroke="#FFFFFF" stroke-opacity="0.14" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none">
+      <!-- Fixed Pillar & Pedestal -->
+      <line x1="120" y1="20" x2="120" y2="190" stroke-width="5"/>
+      <rect x="85" y="190" width="70" height="14" rx="4" fill="#FFFFFF" fill-opacity="0.12"/>
+      <circle cx="120" cy="20" r="8" fill="#FFFFFF" fill-opacity="0.22"/>
+
+      <!-- Swaying Crossbeam & Suspended Weighing Pans (SMIL + CSS) -->
+      <g class="scales-beam-anim">
+        <animateTransform
+          attributeName="transform"
+          type="rotate"
+          values="-2.5 120 65; 2.5 120 65; -2.5 120 65"
+          dur="6s"
+          repeatCount="indefinite"
+          calcMode="spline"
+          keyTimes="0; 0.5; 1"
+          keySplines="0.45 0.05 0.55 0.95; 0.45 0.05 0.55 0.95"/>
+        <line x1="40" y1="65" x2="200" y2="65" stroke-width="4"/>
+        <path d="M 40 65 L 15 125 L 65 125 Z" fill="#FFFFFF" fill-opacity="0.05"/>
+        <path d="M 200 65 L 175 125 L 225 125 Z" fill="#FFFFFF" fill-opacity="0.05"/>
+      </g>
+    </g>
+
+    <!-- Glass Sheen Shimmer Reflection Sweep -->
+    <g>
+      <rect class="sheen-rect" x="-400" y="0" width="220" height="300" fill="url(#sheen)" transform="skewX(-20)">
+        <animateTransform
+          attributeName="transform"
+          type="translate"
+          values="-400 0; 1600 0"
+          dur="7.5s"
+          repeatCount="indefinite"
+          calcMode="spline"
+          keyTimes="0; 1"
+          keySplines="0.4 0 0.2 1"/>
+      </rect>
+    </g>
+
+    <!-- Left Header Content -->
+    <g transform="translate(80, 75)">
+      <!-- Sub-tag pill -->
+      <rect x="0" y="0" width="268" height="26" rx="13" fill="#FFFFFF" fill-opacity="0.08" stroke="#FFFFFF" stroke-opacity="0.18"/>
+      
+      <!-- Pulsing Beacon Indicator Inside Pill -->
+      <circle cx="18" cy="13" r="3.5" fill="#F97316"/>
+      <circle class="pulse-beacon" cx="18" cy="13" r="3.5" fill="#F97316" opacity="0.8">
+        <animate attributeName="r" values="3.5;8" dur="2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.8;0" dur="2s" repeatCount="indefinite"/>
+      </circle>
+
+      <text x="142" y="17" fill="#FDBA74" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" letter-spacing="1.2" text-anchor="middle">
+        LEGAL AWARENESS PLATFORM
+      </text>
+
+      <!-- Main Wordmark -->
+      <text x="0" y="78" fill="#FFFFFF" font-family="system-ui, -apple-system, 'Inter', sans-serif" font-size="62" font-weight="900" letter-spacing="-1">
+        BAIL<tspan fill="url(#orangeGrad)" dx="10">सेतु</tspan>
+      </text>
+
+      <!-- Tagline -->
+      <text x="2" y="118" fill="#E2E8F0" font-family="system-ui, -apple-system, 'Inter', sans-serif" font-size="19" font-weight="500">
+        Your Bridge to Legal Information
+      </text>
+
+      <!-- Hindi Subtitle -->
+      <text x="2" y="146" fill="#94A3B8" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="400">
+        आईपीसी एवं बीएनएस कानूनी धाराएं • जमानत नियम • विधिक सहायता
+      </text>
+    </g>
+  </g>
+</svg>
