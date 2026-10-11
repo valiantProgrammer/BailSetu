@@ -52,6 +52,8 @@ BailSETU is a full-stack civic legal information platform built for Indian citiz
   </ul>
 </details>
 
+<img src="./docs/assets/divider.svg" alt="" width="100%"/>
+
 ## Features
 
 <table>
